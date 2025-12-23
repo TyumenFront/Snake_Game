@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "twoPlayerGame.h"
+#include "twoPlayaGame.h"
 #include <iostream>
 #include <stdlib.h> // нужен для вызова функций rand(), srand()
 #include <time.h> // нужен для вызова функции time()

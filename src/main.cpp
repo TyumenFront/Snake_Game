@@ -652,3 +652,798 @@ int main()
 						} // конец case 0 (NICKNAME)
 						break;
 					}
+
+					case 1: {  // Пункт "CONTROL"
+
+						// Проверяем нажатие клавиши Enter
+						if (event.key.code != sf::Keyboard::Enter) {
+							break;
+						}
+
+						// Флаг для отслеживания состояния меню управления
+						bool control = true;
+
+						// Цикл меню управления
+						while (control) {
+
+							// Вложенный цикл обработки событий в меню управления
+							while (window.pollEvent(event))
+							{
+								// Проверяем событие закрытия окна
+								if (event.type == sf::Event::Closed)
+									window.close();
+
+								// Обрабатываем отпускание клавиши
+								if (event.type == sf::Event::KeyReleased) {
+
+									// Перемещение вверх по меню
+									if (event.key.code == sf::Keyboard::Up) {
+										controlMenu.moveUp();
+									}
+
+									// Перемещение вниз по меню
+									if (event.key.code == sf::Keyboard::Down) {
+										controlMenu.moveDown();
+									}
+
+									// Обработка в зависимости от выбранного пункта меню
+									switch (controlMenu.getSelected()) {
+
+									case 0: {  // Пункт "PLAYER1"
+
+										// Проверяем нажатие клавиши Enter
+										if (event.key.code != sf::Keyboard::Enter) {
+											break;
+										}
+
+										// Флаг для отслеживания состояния меню управления первого игрока
+										bool player1 = true;
+
+										// Получаем текущие настройки управления для первого игрока
+										sf::String keyU = settings[0].second;  // Вверх
+										sf::String keyL = settings[1].second;  // Влево
+										sf::String keyD = settings[2].second;  // Вниз
+										sf::String keyR = settings[3].second;  // Вправо
+
+										// Цикл меню управления первого игрока
+										while (player1) {
+
+											// Переменная для хранения кода нажатой клавиши
+											sf::Keyboard::Scancode code = sf::Keyboard::Scancode::Unknown;
+
+											// Вложенный цикл обработки событий
+											while (window.pollEvent(event))
+											{
+												// Проверяем событие закрытия окна
+												if (event.type == sf::Event::Closed)
+													window.close();
+
+												// Обрабатываем отпускание клавиши
+												if (event.type == sf::Event::KeyReleased) {
+
+													// Перемещение вверх по меню
+													if (event.key.code == sf::Keyboard::Up) {
+														playerControlMenu.moveUp();
+													}
+
+													// Перемещение вниз по меню
+													if (event.key.code == sf::Keyboard::Down) {
+														playerControlMenu.moveDown();
+													}
+
+													// Обработка в зависимости от выбранного пункта меню
+													switch (playerControlMenu.getSelected()) {
+
+													case 0:  // Пункт "UP"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;  // Получаем код клавиши
+															// Запрещаем использовать клавиши Up и Down для управления
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyU = sf::Keyboard::getDescription(code);  // Устанавливаем новую клавишу
+															}
+														}
+														break;
+
+													case 1:  // Пункт "LEFT"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyL = sf::Keyboard::getDescription(code);
+															}
+														}
+														break;
+
+													case 2:  // Пункт "DOWN"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyD = sf::Keyboard::getDescription(code);
+															}
+														}
+														break;
+
+													case 3:  // Пункт "RIGHT"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyR = sf::Keyboard::getDescription(code);
+															}
+														}
+														break;
+
+													case 4:  // Пункт "SAVE"
+														// Проверяем нажатие Enter для сохранения
+														if (event.key.code == sf::Keyboard::Enter) {
+															// Получаем строки с выбранными клавишами
+															std::string Up = keyUp.getString();
+															std::string Left = keyLeft.getString();
+															std::string Down = keyDown.getString();
+															std::string Right = keyRight.getString();
+
+															// Обновляем настройки управления первого игрока
+															settings[0].second = Up;
+															settings[1].second = Left;
+															settings[2].second = Down;
+															settings[3].second = Right;
+
+															// Сохраняем настройки в файл
+															setSettings(settings);
+														}
+														break;
+
+													case 5:  // Пункт "GO BACK"
+														// Проверяем нажатие Enter для выхода
+														if (event.key.code == sf::Keyboard::Enter) {
+															player1 = false;  // Выходим из цикла
+														}
+														break;
+													}
+												}
+											}
+
+											// Настройка отображения выбранных клавиш
+											keyLeft.setFont(font);
+											setControl(keyLeft, keyL, 460);
+											keyUp.setFont(font);
+											setControl(keyUp, keyU, 360);
+											keyDown.setFont(font);
+											setControl(keyDown, keyD, 560);
+											keyRight.setFont(font);
+											setControl(keyRight, keyR, 660);
+
+											// Очистка окна и отрисовка интерфейса
+											window.clear();
+											window.draw(background);
+											window.draw(titul);
+											playerControlMenu.draw();
+											window.draw(keyUp);
+											window.draw(keyLeft);
+											window.draw(keyDown);
+											window.draw(keyRight);
+											window.display();
+										}
+										break;
+									}
+
+									case 1: {  // Пункт "PLAYER2"
+
+										// Проверяем нажатие клавиши Enter
+										if (event.key.code != sf::Keyboard::Enter) {
+											break;
+										}
+
+										// Флаг для отслеживания состояния меню управления второго игрока
+										bool player2 = true;
+
+										// Получаем текущие настройки управления для второго игрока
+										sf::String keyU = settings[13].second;  // Вверх
+										sf::String keyL = settings[14].second;  // Влево
+										sf::String keyD = settings[15].second;  // Вниз
+										sf::String keyR = settings[16].second;  // Вправо
+
+										// Цикл меню управления второго игрока
+										while (player2) {
+
+											// Переменная для хранения кода нажатой клавиши
+											sf::Keyboard::Scancode code = sf::Keyboard::Scancode::Unknown;
+											bool inLoop = false;  // Флаг для отслеживания нахождения в цикле (не используется)
+
+											// Вложенный цикл обработки событий
+											while (window.pollEvent(event))
+											{
+												// Проверяем событие закрытия окна
+												if (event.type == sf::Event::Closed)
+													window.close();
+
+												// Обрабатываем отпускание клавиши
+												if (event.type == sf::Event::KeyReleased) {
+
+													// Перемещение вверх по меню
+													if (event.key.code == sf::Keyboard::Up) {
+														playerControlMenu.moveUp();
+													}
+
+													// Перемещение вниз по меню
+													if (event.key.code == sf::Keyboard::Down) {
+														playerControlMenu.moveDown();
+													}
+
+													bool notPressed = true;  // Флаг (не используется)
+
+													// Обработка в зависимости от выбранного пункта меню
+													switch (playerControlMenu.getSelected()) {
+
+													case 0:  // Пункт "UP"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;
+															// Запрещаем использовать клавиши Up и Down для управления
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyU = sf::Keyboard::getDescription(code);
+															}
+														}
+														break;
+
+													case 1:  // Пункт "LEFT"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyL = sf::Keyboard::getDescription(code);
+															}
+														}
+														break;
+
+													case 2:  // Пункт "DOWN"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyD = sf::Keyboard::getDescription(code);
+															}
+														}
+														break;
+
+													case 3:  // Пункт "RIGHT"
+														if (event.type == sf::Event::KeyReleased) {
+															code = event.key.scancode;
+															if (sf::Keyboard::getDescription(code) != "Up" && sf::Keyboard::getDescription(code) != "Down") {
+																keyR = sf::Keyboard::getDescription(code);
+															}
+														}
+														break;
+
+													case 4:  // Пункт "SAVE"
+														// Проверяем нажатие Enter для сохранения
+														if (event.key.code == sf::Keyboard::Enter) {
+															// Получаем строки с выбранными клавишами
+															std::string Up = keyUp.getString();
+															std::string Left = keyLeft.getString();
+															std::string Down = keyDown.getString();
+															std::string Right = keyRight.getString();
+
+															// Обновляем настройки управления второго игрока
+															settings[13].second = Up;
+															settings[14].second = Left;
+															settings[15].second = Down;
+															settings[16].second = Right;
+
+															// Сохраняем настройки в файл
+															setSettings(settings);
+														}
+														break;
+
+													case 5:  // Пункт "GO BACK"
+														// Проверяем нажатие Enter для выхода
+														if (event.key.code == sf::Keyboard::Enter) {
+															player2 = false;  // Выходим из цикла
+														}
+														break;
+													}
+												}
+											}
+
+											// Настройка отображения выбранных клавиш
+											keyLeft.setFont(font);
+											setControl(keyLeft, keyL, 460);
+											keyUp.setFont(font);
+											setControl(keyUp, keyU, 360);
+											keyDown.setFont(font);
+											setControl(keyDown, keyD, 560);
+											keyRight.setFont(font);
+											setControl(keyRight, keyR, 660);
+
+											// Очистка окна и отрисовка интерфейса
+											window.clear();
+											window.draw(background);
+											window.draw(titul);
+											playerControlMenu.draw();
+											window.draw(keyUp);
+											window.draw(keyLeft);
+											window.draw(keyDown);
+											window.draw(keyRight);
+											window.display();
+										}
+										break;
+									}
+
+									case 2: {  // Пункт "GO BACK" в меню выбора игрока
+										// Проверяем нажатие Enter для выхода
+										if (event.key.code == sf::Keyboard::Enter) {
+											control = false;  // Выходим из цикла
+										}
+										break;
+									}
+									}
+								}
+							}
+
+							// Очистка окна и отрисовка меню выбора игрока
+							window.clear();
+							window.draw(background);
+							window.draw(titul);
+							controlMenu.draw();
+							window.display();
+						}
+						break;
+					}
+
+					case 2: {  // Пункт "THEME"
+
+						// Проверяем нажатие клавиши Enter
+						if (event.key.code != sf::Keyboard::Enter) {
+							break;
+						}
+
+						// Флаг для отслеживания состояния меню тем
+						bool thems = true;
+
+						// Находим итераторы на текущие цвета в соответствующих векторах
+						auto player1ColorIt = std::find(playerColorSettings.begin(), playerColorSettings.end(), settings[9].second);
+						auto player2ColorIt = std::find(playerColorSettings.begin(), playerColorSettings.end(), settings[10].second);
+						auto appleColorIt = std::find(appleColorSettings.begin(), appleColorSettings.end(), settings[11].second);
+						auto botColorIt = std::find(botColorSettings.begin(), botColorSettings.end(), settings[12].second);
+
+						// Цикл меню тем
+						while (thems) {
+
+							// Создаем и настраиваем графический индикатор цвета первого игрока
+							sf::RectangleShape player1Indicator;
+							sf::Texture player1Texture;
+							std::string player1TexturePath = "../designe/snake" + player1Color + ".png";
+							if (!player1Texture.loadFromFile(player1TexturePath)) return -1;
+
+							player1Indicator.setSize(sf::Vector2f(30, 30));
+							player1Indicator.setPosition(sf::Vector2f(980, 390));
+							player1Indicator.setTexture(&player1Texture);
+
+							// Создаем и настраиваем графический индикатор цвета второго игрока
+							sf::RectangleShape player2Indicator;
+							sf::Texture player2Texture;
+							std::string player2TexturePath = "../designe/snake" + player2Color + ".png";
+							if (!player2Texture.loadFromFile(player2TexturePath)) return -1;
+
+							player2Indicator.setSize(sf::Vector2f(30, 30));
+							player2Indicator.setPosition(sf::Vector2f(980, 480));
+							player2Indicator.setTexture(&player2Texture);
+
+							// Создаем и настраиваем графический индикатор цвета яблока
+							sf::RectangleShape appleIndicator;
+							sf::Texture appleTextureIndicator;
+							std::string appleTexturePath = "../designe/apple" + appleColor + ".png";
+							if (!appleTextureIndicator.loadFromFile(appleTexturePath)) return -1;
+
+							appleIndicator.setSize(sf::Vector2f(30, 30));
+							appleIndicator.setPosition(sf::Vector2f(980, 570));
+							appleIndicator.setTexture(&appleTextureIndicator);
+
+							// Создаем и настраиваем графический индикатор цвета бота
+							sf::RectangleShape botIndicator;
+							sf::Texture botTextureIndicator;
+							std::string botTexturePath = "../designe/bot" + botColor + ".png";
+							if (!botTextureIndicator.loadFromFile(botTexturePath)) return -1;
+
+							botIndicator.setSize(sf::Vector2f(30, 30));
+							botIndicator.setPosition(sf::Vector2f(980, 670));
+							botIndicator.setTexture(&botTextureIndicator);
+
+							// Вложенный цикл обработки событий в меню тем
+							while (window.pollEvent(event))
+							{
+								// Проверяем событие закрытия окна
+								if (event.type == sf::Event::Closed)
+									window.close();
+
+								// Обрабатываем отпускание клавиши
+								if (event.type == sf::Event::KeyReleased) {
+
+									// Перемещение вверх по меню
+									if (event.key.code == sf::Keyboard::Up) {
+										themsMenu.moveUp();
+									}
+
+									// Перемещение вниз по меню
+									if (event.key.code == sf::Keyboard::Down) {
+										themsMenu.moveDown();
+									}
+
+									// Обработка в зависимости от выбранного пункта меню
+									switch (themsMenu.getSelected()) {
+
+									case 0: {  // Пункт "PLAYER1"
+										if (event.type == sf::Event::KeyReleased) {
+											auto code = event.key.scancode;  // Получаем код нажатой клавиши
+
+											// Обработка клавиши "Left" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Left") {
+												// Если текущий цвет не первый в списке
+												if (player1ColorIt != playerColorSettings.begin()) {
+													player1Color = *(--player1ColorIt);  // Переходим к предыдущему цвету
+												}
+												else {
+													player1ColorIt = --playerColorSettings.end();  // Переходим в конец списка
+													player1Color = *(player1ColorIt);  // Берем последний цвет
+												}
+											}
+
+											// Обработка клавиши "Right" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Right") {
+												// Если текущий цвет не последний в списке
+												if (player1ColorIt != --playerColorSettings.end()) {
+													player1Color = *(++player1ColorIt);  // Переходим к следующему цвету
+												}
+												else {
+													player1ColorIt = playerColorSettings.begin();  // Переходим в начало списка
+													player1Color = *(player1ColorIt);  // Берем первый цвет
+												}
+											}
+										}
+										break;
+									}
+
+									case 1: {  // Пункт "PLAYER2"
+										if (event.type == sf::Event::KeyReleased) {
+											auto code = event.key.scancode;
+
+											// Обработка клавиши "Left" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Left") {
+												if (player2ColorIt != playerColorSettings.begin()) {
+													player2Color = *(--player2ColorIt);
+												}
+												else {
+													player2ColorIt = --playerColorSettings.end();
+													player2Color = *(player2ColorIt);
+												}
+											}
+
+											// Обработка клавиши "Right" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Right") {
+												if (player2ColorIt != --playerColorSettings.end()) {
+													player2Color = *(++player2ColorIt);
+												}
+												else {
+													player2ColorIt = playerColorSettings.begin();
+													player2Color = *(player2ColorIt);
+												}
+											}
+										}
+										break;
+									}
+
+									case 2: {  // Пункт "APPLE"
+										if (event.type == sf::Event::KeyReleased) {
+											auto code = event.key.scancode;
+
+											// Обработка клавиши "Left" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Left") {
+												if (appleColorIt != appleColorSettings.begin()) {
+													appleColor = *(--appleColorIt);
+												}
+												else {
+													appleColorIt = --appleColorSettings.end();
+													appleColor = *(appleColorIt);
+												}
+											}
+
+											// Обработка клавиши "Right" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Right") {
+												if (appleColorIt != --appleColorSettings.end()) {
+													appleColor = *(++appleColorIt);
+												}
+												else {
+													appleColorIt = appleColorSettings.begin();
+													appleColor = *(appleColorIt);
+												}
+											}
+										}
+										break;
+									}
+
+									case 3: {  // Пункт "BOT"
+										if (event.type == sf::Event::KeyReleased) {
+											auto code = event.key.scancode;
+
+											// Обработка клавиши "Left" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Left") {
+												if (botColorIt != botColorSettings.begin()) {
+													botColor = *(--botColorIt);
+												}
+												else {
+													botColorIt = --botColorSettings.end();
+													botColor = *(botColorIt);
+												}
+											}
+
+											// Обработка клавиши "Right" для переключения цвета
+											if (sf::Keyboard::getDescription(code) == "Right") {
+												if (botColorIt != --botColorSettings.end()) {
+													botColor = *(++botColorIt);
+												}
+												else {
+													botColorIt = botColorSettings.begin();
+													botColor = *(botColorIt);
+												}
+											}
+										}
+										break;
+									}
+
+									case 4: {  // Пункт "SAVE"
+										// Проверяем нажатие Enter для сохранения
+										if (event.key.code != sf::Keyboard::Enter)
+											break;
+
+										// Сохраняем выбранные цвета в настройки
+										settings[9].second = *(player1ColorIt);
+										settings[10].second = *(player2ColorIt);
+										settings[11].second = *(appleColorIt);
+										settings[12].second = *(botColorIt);
+
+										// Сохраняем настройки в файл
+										setSettings(settings);
+										break;
+									}
+
+									case 5:  // Пункт "GO BACK"
+										// Проверяем нажатие Enter для выхода
+										if (event.key.code == sf::Keyboard::Enter) {
+											thems = false;  // Выходим из цикла
+										}
+										break;
+									}
+								}
+							}
+
+							// Очистка окна и отрисовка интерфейса
+							window.clear();
+							window.draw(background);
+							window.draw(titul);
+							themsMenu.draw();
+							window.draw(player1Indicator);
+							window.draw(player2Indicator);
+							window.draw(appleIndicator);
+							window.draw(botIndicator);
+							window.display();
+						}
+						break;
+					}
+
+					case 3: {  // Пункт "FIELD SIZE"
+
+						// Проверяем нажатие клавиши Enter
+						if (event.key.code != sf::Keyboard::Enter) {
+							break;
+						}
+
+						// Флаг для отслеживания состояния меню размера поля
+						bool field = true;
+
+						// Цикл меню размера поля
+						while (field)
+						{
+							// Вложенный цикл обработки событий
+							while (window.pollEvent(event))
+							{
+								// Проверяем событие закрытия окна
+								if (event.type == sf::Event::Closed)
+									window.close();
+
+								// Обрабатываем отпускание клавиши
+								if (event.type == sf::Event::KeyReleased) {
+
+									// Перемещение вверх по меню
+									if (event.key.code == sf::Keyboard::Up) {
+										fieldMenu.moveUp();
+									}
+
+									// Перемещение вниз по меню
+									if (event.key.code == sf::Keyboard::Down) {
+										fieldMenu.moveDown();
+									}
+
+									// Проверяем нажатие клавиши Enter
+									if (event.key.code != sf::Keyboard::Enter)
+										break;
+
+									// Обработка выбранного пункта меню
+									switch (fieldMenu.getSelected()) {
+									case 0:  // Пункт "BIG"
+										settings[8].second = "1";  // Устанавливаем размер поля "BIG"
+										break;
+									case 1:  // Пункт "MEDIUM"
+										settings[8].second = "2";  // Устанавливаем размер поля "MEDIUM"
+										break;
+									case 2:  // Пункт "SMALL"
+										settings[8].second = "3";  // Устанавливаем размер поля "SMALL"
+										break;
+									case 3:  // Пункт "GO BACK"
+										setSettings(settings);  // Сохраняем настройки
+										field = false;  // Выходим из цикла
+										break;
+									}
+								}
+							}
+
+							// Очистка окна и отрисовка интерфейса
+							window.clear();
+							window.draw(background);
+							window.draw(titul);
+							fieldMenu.draw();
+							window.display();
+						}
+						break;
+					}
+
+					case 4: {  // Пункт "SET DEFAULT SETTINGS"
+
+						// Проверяем нажатие клавиши Enter
+						if (event.key.code != sf::Keyboard::Enter) {
+							break;
+						}
+
+						// Устанавливаем настройки по умолчанию
+						setDefaultSettings();
+						// Загружаем обновленные настройки
+						settings = getSettings();
+						break;
+					}
+
+					case 5: {  // Пункт "GO BACK" в меню настроек
+
+						// Проверяем нажатие клавиши Enter
+						if (event.key.code != sf::Keyboard::Enter) {
+							break;
+						}
+
+						// Возвращаемся в главное меню
+						gameMenu_.setPositionY(400);
+						gameMenu_.pressButton(name, 0);
+						break;
+					}
+					}
+					break;  // Конец обработки меню настроек
+				}
+
+				// Меню "О программе" (режим 3)
+				case 3: {
+					// Обработка выбранного пункта в меню "О программе"
+					switch (gameMenu_.getSelected()) {
+					case 0:  // Пункт "GO BACK"
+						// Проверяем нажатие Enter для возврата
+						if (event.key.code == sf::Keyboard::Enter) {
+							about = false;  // Сбрасываем флаг отображения информации о разработчиках
+							gameMenu_.setPositionY(400);  // Восстанавливаем позицию меню
+							gameMenu_.pressButton(name, 0);  // Возвращаемся в главное меню
+						}
+						break;
+					}
+					break;  // Конец обработки меню "О программе"
+				}
+
+					  // Меню выхода из игры (режим 4)
+				case 4:
+					// Проверяем нажатие клавиши Enter
+					if (event.key.code != sf::Keyboard::Enter) {
+						break;
+					}
+
+					// Обработка выбранного пункта в меню выхода
+					switch (gameMenu_.getSelected()) {
+					case 0:  // Пункт "GO BACK"
+						gameMenu_.setPositionY(400);  // Восстанавливаем позицию меню
+						gameMenu_.pressButton(name, 0);  // Возвращаемся в главное меню
+						break;
+					case 1:  // Пункт "EXIT"
+						window.close();  // Закрываем окно
+						return 0;  // Завершаем программу
+					}
+					break;  // Конец обработки меню выхода
+				}
+			}
+		}
+
+		// Отрисовка графического интерфейса
+		window.clear();  // Очищаем окно
+		window.draw(background);  // Отрисовываем фон
+
+		// Если активен режим меню выхода (4), отрисовываем текст подтверждения
+		if (gameMenu_.getMode() == 4) {
+			window.draw(exit1);
+			window.draw(exit2);
+		}
+
+		// Если активен режим "О программе", отрисовываем информацию о разработчиках
+		if (about) {
+			window.draw(developers);
+			window.draw(owner);
+			window.draw(developer);
+			window.draw(kanye);
+		}
+
+		// Отрисовываем заголовок и главное меню
+		window.draw(titul);
+		gameMenu_.draw();
+		window.display();  // Отображаем все нарисованное
+	}
+
+	// Завершение программы
+	return 0;
+}
+
+// Реализация функции инициализации текста
+void InitText(sf::Text& mtext, float xpos, float ypos, sf::String str, int size_font,
+	sf::Color menu_text_color, int bord, sf::Color border_color)
+{
+	// Устанавливаем размер шрифта
+	mtext.setCharacterSize(size_font);
+	// Устанавливаем позицию текста
+	mtext.setPosition(xpos, ypos);
+	// Устанавливаем строку текста
+	mtext.setString(str);
+	// Устанавливаем цвет заполнения текста
+	mtext.setFillColor(menu_text_color);
+	// Устанавливаем толщину контура текста
+	mtext.setOutlineThickness(bord);
+	// Устанавливаем цвет контура текста
+	mtext.setOutlineColor(border_color);
+}
+
+// Реализация функции установки текста управления
+void setControl(sf::Text& key, sf::String keyName, float ypos)
+{
+	// Инициализируем текст с указанными параметрами
+	InitText(key, 1000, ypos, keyName, 55, sf::Color::Yellow, 3, sf::Color(40, 40, 40));
+}
+
+// Реализация функции запуска одиночной игры
+int gameSingleplayerStart(sf::RenderWindow& window, singleplayer game)
+{
+	// Запускаем одиночную игру и получаем результат
+	int result = game.startSingleplayer(window);
+
+	// Обрабатываем результат игры
+	switch (result) {
+	case 2:  // Рестарт игры
+		gameSingleplayerStart(window, game);  // Рекурсивный вызов для перезапуска
+		break;
+	case 0:  // Возврат в меню
+		return 1;  // Возвращаем 1 (успешное завершение с возвратом в меню)
+	}
+
+	return 1;  // Возвращаем 1 по умолчанию
+}
+
+// Реализация функции запуска многопользовательской игры
+int gameMultyplayerStart(sf::RenderWindow& window, twoPlayaGame& game)
+{
+	// Запускаем многопользовательскую игру и получаем результат
+	int result = game.startTwoPlayaGame(window);
+
+	// Обрабатываем результат игры
+	switch (result) {
+	case 2:  // Рестарт игры
+		gameMultyplayerStart(window, game);  // Рекурсивный вызов для перезапуска
+		break;
+	case 0:  // Возврат в меню
+		return 1;  // Возвращаем 1 (успешное завершение с возвратом в меню)
+	}
+
+	return 1;  // Возвращаем 1 по умолчанию
+}
