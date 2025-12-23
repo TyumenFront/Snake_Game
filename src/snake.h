@@ -1,6 +1,10 @@
-#pragma once
+
 #pragma once
 #include <iostream>
+#include <SFML/Graphics.hpp>
+#include "wall.h"
+#include "apple.h"
+#include <deque>
 
 // Скорость змейки
 const float SPEED = CELL_SIZE;
