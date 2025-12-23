@@ -18,9 +18,15 @@
     <ClCompile Include="apple.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="snake.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apple.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="snake.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
