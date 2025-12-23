@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "singlepalyer.h"
+#include "singleplayer.h"
 #include <string>
 
 // Конструктор одиночного режима, получает готовый объект змейки

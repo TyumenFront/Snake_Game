@@ -44,7 +44,7 @@
     <ClInclude Include="wall.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="singlepalyer.h">
+    <ClInclude Include="singleplayer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
