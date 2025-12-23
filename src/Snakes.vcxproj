@@ -172,11 +172,13 @@
     <ClCompile Include="apple.cpp" />
     <ClCompile Include="gameMenu.cpp" />
     <ClCompile Include="snake.cpp" />
+    <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apple.h" />
     <ClInclude Include="gameMenu.h" />
     <ClInclude Include="snake.h" />
+    <ClInclude Include="wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
