@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="apple.cpp" />
     <ClCompile Include="gameMenu.cpp" />
+    <ClCompile Include="settings.cpp" />
     <ClCompile Include="singleplayer.cpp" />
     <ClCompile Include="snake.cpp" />
     <ClCompile Include="twoPlayerGame.cpp" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="apple.h" />
     <ClInclude Include="gameMenu.h" />
+    <ClInclude Include="settings.h" />
     <ClInclude Include="singleplayer.h" />
     <ClInclude Include="snake.h" />
     <ClInclude Include="twoPlayerGame.h" />
