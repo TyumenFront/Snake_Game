@@ -173,6 +173,7 @@
     <ClCompile Include="gameMenu.cpp" />
     <ClCompile Include="singleplayer.cpp" />
     <ClCompile Include="snake.cpp" />
+    <ClCompile Include="twoPlayerGame.cpp" />
     <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
