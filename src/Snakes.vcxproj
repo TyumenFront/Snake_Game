@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="apple.cpp" />
     <ClCompile Include="gameMenu.cpp" />
+    <ClCompile Include="singleplayer.cpp" />
     <ClCompile Include="snake.cpp" />
     <ClCompile Include="wall.cpp" />
   </ItemGroup>
