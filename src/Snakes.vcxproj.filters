@@ -41,5 +41,8 @@
     <ClInclude Include="wall.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="singlepalyer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
