@@ -1,6 +1,6 @@
 ﻿#include <SFML/Graphics.hpp>
 #include "gameMenu.h"
-#include "singlepalyer.h"
+#include "singleplayer.h"
 #include <iostream>
 #include <string>
 #include "settings.h"
