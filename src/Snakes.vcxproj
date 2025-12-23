@@ -180,6 +180,7 @@
     <ClInclude Include="gameMenu.h" />
     <ClInclude Include="singleplayer.h" />
     <ClInclude Include="snake.h" />
+    <ClInclude Include="twoPlayerGame.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
